@@ -38,7 +38,7 @@ app.mount("/dashboard", WSGIMiddleware(app_dash.server))
 user={"admin":"123"}
 
 
-EXTERNAL_API_URL = "http://127.0.0.1:8000/info"
+EXTERNAL_API_URL = "https://weatherabdo2025-facjb8afdsetb2a5.canadacentral-01.azurewebsites.net/info"
 
 def get_external_info():
     try:
