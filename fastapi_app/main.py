@@ -8,9 +8,9 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.wsgi import WSGIMiddleware
 from fastapi.templating import Jinja2Templates
 import uvicorn
-from dash_app import app as app_dash
+from dash_app.app import server_layout 
 import requests
-
+import dash
 
 # creeer l'objet de FastApi
 app = FastAPI()
@@ -32,13 +32,12 @@ app.mount("/static", StaticFiles(directory=static_dir))
 
 
 #Montez l'application Dash sou le chemain /dashboard
-app.mount("/dashboard", WSGIMiddleware(app_dash.server))
 
 
 user={"admin":"123"}
 
 
-EXTERNAL_API_URL = "https://weatherabdo2025-facjb8afdsetb2a5.canadacentral-01.azurewebsites.net/info"
+EXTERNAL_API_URL = "http://127.0.0.1:8000/info"
 
 def get_external_info():
     try:
@@ -85,8 +84,12 @@ async def logout():
     return response
         
 
+external_info = get_external_info()
 
+dash_app = dash.Dash(__name__, requests_pathname_prefix='/dashboard/')
+dash_app.layout = server_layout(external_info)
 
+app.mount("/dashboard", WSGIMiddleware(dash_app.server))
 
 
 
