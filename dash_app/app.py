@@ -1,9 +1,6 @@
 
-
 import dash
 from dash import html, dcc
-
-
 # initializer 'application Dash
 app = dash.Dash(__name__, requests_pathname_prefix ='/dashboard/')
 
